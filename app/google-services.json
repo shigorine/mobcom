@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1087573213214",
+    "project_id": "mocob-84c1d",
+    "storage_bucket": "mocob-84c1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087573213214:android:382fcdbb4ecb56df73ae0f",
+        "android_client_info": {
+          "package_name": "com.example.ffff"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIEvCsm7UjvOlDhYkM93RjplLOvv7wRo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
