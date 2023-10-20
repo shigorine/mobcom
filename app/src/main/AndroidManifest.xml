@@ -16,6 +16,46 @@
             android:name=".EditAmountViewModel"
             android:exported="false" />
         <activity
+            android:name=".LoginAndRegister.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginAndRegister.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginAndRegister.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginAndRegister.LoginSignUpActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginAndRegister.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginAndRegister.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginAndRegister.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginAndRegister.LoginAndSignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+        <activity
             android:name=".test"
             android:exported="false" />
         <activity
