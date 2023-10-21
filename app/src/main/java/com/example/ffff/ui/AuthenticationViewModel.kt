@@ -171,6 +171,7 @@ class AuthenticationViewModel:ViewModel() {
     fun updateUserBalance(newBalance: String) {
         profileModel.money = newBalance
     }
+    fun updateBalance(){}
 
     fun saveUserBalanceToDatabase(newBalance: String) {
         val currentUser = auth.currentUser
