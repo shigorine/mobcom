@@ -1,70 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginAndRegister.SignUpActivity">
 
-    <LinearLayout
-
+    <TextView
+        android:id="@+id/tv_header"
+        style="@style/TextAppearance.Material3.HeadlineLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="Sign up"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_header">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="320dp"
-            android:padding="20dp">
+            android:hint="Password"
+            app:passwordToggleEnabled="true">
 
-            <EditText
-                android:layout_width="350dp"
-                android:layout_height="60dp"
-                android:id="@+id/signup_email"
-                android:layout_marginTop="30dp"
-                android:padding="8dp"
-                android:hint="Email">
-            </EditText>
-            <EditText
-                android:layout_width="350dp"
-                android:layout_height="60dp"
-                android:id="@+id/signup_password"
-                android:inputType="textPassword"
-                android:layout_marginTop="30dp"
-                android:padding="8dp"
-                android:hint="Password">
-            </EditText>
-            <EditText
-                android:layout_width="350dp"
-                android:layout_height="60dp"
-                android:id="@+id/signup_confirmPassword"
-                android:inputType="textPassword"
-                android:layout_marginTop="30dp"
-                android:padding="8dp"
-                android:hint="Confirm Password">
-            </EditText>
-            <Button
-                android:layout_width="350dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="30dp"
-                android:text="Sign Up"
-                android:id="@+id/signup_button"
-                android:textSize="18sp"/>
-            <TextView
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_password"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/loginRedirectText"
-                android:text="Already a user? Login"
-                android:layout_gravity="center"
-                android:padding="8dp"
-                android:layout_marginTop="8dp"
-                android:textSize="18sp"/>
+                android:inputType="textPassword" />
 
-        </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:text="Sign up"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
