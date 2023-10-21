@@ -33,9 +33,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.getUserProfile()
-        binding.btnLogOut.setOnClickListener {
-            viewModel.logOut()
+
+        with(binding){
+            binding.btnLogOut.setOnClickListener {
+                viewModel.logOut()
+            }
+
+            binding.btnAddAmount.setOnClickListener {
+                //BUTTON FOR INTENT TO ADD AMOUNT TO USER ACCOUNT
+            }
+
+            binding.btnGenerateQrCode.setOnClickListener {
+                //BUTTON FOR GENERATE QR CODE ACITIVITY
+            }
+
+            binding.btnTransferFunds.setOnClickListener {
+                //BUTTON FOR TRANSFERING FUNDS ACTIVITY
+            }
+
         }
+
+
      }
 
     private fun handleState(state : AuthenticationStates) {
