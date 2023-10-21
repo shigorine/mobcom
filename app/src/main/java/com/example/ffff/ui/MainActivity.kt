@@ -40,15 +40,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             btnAddAmount.setOnClickListener {
-                //BUTTON FOR INTENT TO ADD AMOUNT TO USER ACCOUNT
+
             }
 
             btnGenerateQrCode.setOnClickListener {
-                //BUTTON FOR GENERATE QR CODE ACITIVITY
+                val intent = Intent(this@MainActivity, GenerateQRCodeActivity::class.java)
+                startActivity(intent)
             }
 
             btnTransferFunds.setOnClickListener {
-                //BUTTON FOR TRANSFERING FUNDS ACTIVITY
+                val intent = Intent(this@MainActivity, ScanActivity::class.java)
+                startActivity(intent)
             }
 
         }
