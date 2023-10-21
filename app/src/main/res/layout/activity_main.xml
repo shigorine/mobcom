@@ -10,10 +10,11 @@
 
     <TextView
         android:id="@+id/tv_user"
-        android:layout_width="215dp"
+        android:layout_width="match_parent"
         android:layout_height="35dp"
         android:ems="10"
         android:inputType="text"
+        android:text="User name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.139"
@@ -23,10 +24,11 @@
 
     <TextView
         android:id="@+id/tv_userMoney"
-        android:layout_width="215dp"
+        android:layout_width="match_parent"
         android:layout_height="35dp"
         android:ems="10"
         android:inputType="text"
+        android:text="User Amount"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.137"
