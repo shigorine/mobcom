@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.getUserProfile()
-        viewModel.getUserBalance()
 
         with(binding){
             btnLogOut.setOnClickListener {
@@ -41,16 +40,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             btnAddAmount.setOnClickListener {
-                val intent = Intent(this@MainActivity, AddAmountActivity::class.java)
-                startActivity(intent)
+
             }
 
             btnGenerateQrCode.setOnClickListener {
-                //BUTTON FOR GENERATE QR CODE ACITIVITY
+                val intent = Intent(this@MainActivity, GenerateQRCodeActivity::class.java)
+                startActivity(intent)
             }
 
             btnTransferFunds.setOnClickListener {
-                //BUTTON FOR TRANSFERING FUNDS ACTIVITY
+                val intent = Intent(this@MainActivity, ScanActivity::class.java)
+                startActivity(intent)
             }
 
         }
