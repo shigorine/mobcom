@@ -41,7 +41,8 @@ class MainActivity : AppCompatActivity() {
     private fun handleState(state : AuthenticationStates) {
         when(state) {
             is AuthenticationStates.Default -> {
-                binding.tvUser.text = "Welcome, ${state.user?.name}"
+                binding.tvUser.text = "Welcome, ${state.user?.name}!"
+                binding.tvUserMoney.text = "You have ${state.user?.money}"
             }
             AuthenticationStates.Error -> TODO()
             AuthenticationStates.LogOut -> {
