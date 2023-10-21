@@ -1,8 +1,14 @@
 package com.example.ffff.model
 
+import android.os.Parcelable
+import com.google.firebase.database.Exclude
+import kotlinx.parcelize.Parcelize
+@Parcelize()
 data class ProfileModel(
-    val id: Int? = null,
+    @get:Exclude
+    val id: String? = null,
     val email: String? = null,
-    var money: Double? = null,
-    val transactionId: String? = null
-)
+    val name: String? = null,
+    var money: String? = null,
+
+):Parcelable
