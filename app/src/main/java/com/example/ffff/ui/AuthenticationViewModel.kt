@@ -169,7 +169,7 @@ class AuthenticationViewModel:ViewModel() {
         return userBalance
     }
     fun updateUserBalance(newBalance: String) {
-        profileModel.money = newBalance
+     //   model.profileModel.money = newBalance (error)
     }
     fun updateBalance(){}
 

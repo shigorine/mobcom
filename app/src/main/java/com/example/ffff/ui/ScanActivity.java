@@ -3,6 +3,7 @@ package com.example.ffff.ui;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import com.journeyapps.barcodescanner.ScanOptions;
 public class ScanActivity extends AppCompatActivity {
 
     Button btn_scan;
+    EditText amountEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,8 @@ public class ScanActivity extends AppCompatActivity {
 
         btn_scan = findViewById(R.id.btn_scan);
         btn_scan.setOnClickListener(v -> scanCode());
+
+        amountEditText = findViewById(R.id.amountEditText);
     }
 
     private void scanCode() {
@@ -41,44 +45,72 @@ public class ScanActivity extends AppCompatActivity {
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents() != null) {
             String scannedEmail = result.getContents();
+            String enteredAmount = amountEditText.getText().toString();
 
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference usersRef = database.getReference("users");
+            if (enteredAmount.isEmpty()) {
+                showAlertDialog("Error", "Please enter an amount");
+            } else {
+                int amount = Integer.parseInt(enteredAmount);
 
-            usersRef.orderByChild("email").equalTo(scannedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference usersRef = database.getReference("users");
 
-                            String recipientId = userSnapshot.getKey();
-                            String recipientName = userSnapshot.child("name").getValue(String.class);
-                            String recipientMoney = userSnapshot.child("money").getValue(String.class);
+                String senderEmail = "sender@example.com";
+                usersRef.orderByChild("email").equalTo(senderEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot senderData) {
+                        if (senderData.exists()) {
+                            for (DataSnapshot senderSnapshot : senderData.getChildren()) {
+                                String senderUserId = senderSnapshot.getKey();
+                                int senderBalance = senderSnapshot.child("money").getValue(Integer.class);
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ScanActivity.this);
-                            builder.setTitle("Success");
-                            builder.setMessage("Money transferred to " + recipientName);
-                            builder.setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
-                            builder.show();
+                                if (senderBalance >= amount) {
+                                    senderBalance -= amount;
+                                    senderSnapshot.getRef().child("money").setValue(senderBalance);
+
+                                    usersRef.orderByChild("email").equalTo(scannedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot recipientData) {
+                                            if (recipientData.exists()) {
+                                                for (DataSnapshot recipientSnapshot : recipientData.getChildren()) {
+                                                    int recipientBalance = recipientSnapshot.child("money").getValue(Integer.class);
+                                                    recipientBalance += amount;
+                                                    recipientSnapshot.getRef().child("money").setValue(recipientBalance);
+                                                }
+                                                showAlertDialog("Success", "Money transferred successfully");
+                                            } else {
+                                                showAlertDialog("Error", "Recipient not found");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            showAlertDialog("Error", "Database error: " + databaseError.getMessage());
+                                        }
+                                    });
+                                } else {
+                                    showAlertDialog("Error", "Insufficient funds for the transfer");
+                                }
+                            }
+                        } else {
+                            showAlertDialog("Error", "Sender not found");
                         }
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ScanActivity.this);
-                        builder.setTitle("Error");
-                        builder.setMessage("User not found");
-                        builder.setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
-                        builder.show();
                     }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ScanActivity.this);
-                    builder.setTitle("Error");
-                    builder.setMessage("Database error: " + databaseError.getMessage());
-                    builder.setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
-                    builder.show();
-                }
-            });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        showAlertDialog("Error", "Database error: " + databaseError.getMessage());
+                    }
+                });
+            }
         }
     });
+
+    private void showAlertDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ScanActivity.this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
+        builder.show();
+    }
 }
