@@ -35,19 +35,19 @@ class MainActivity : AppCompatActivity() {
         viewModel.getUserProfile()
 
         with(binding){
-            binding.btnLogOut.setOnClickListener {
+            btnLogOut.setOnClickListener {
                 viewModel.logOut()
             }
 
-            binding.btnAddAmount.setOnClickListener {
+            btnAddAmount.setOnClickListener {
                 //BUTTON FOR INTENT TO ADD AMOUNT TO USER ACCOUNT
             }
 
-            binding.btnGenerateQrCode.setOnClickListener {
+            btnGenerateQrCode.setOnClickListener {
                 //BUTTON FOR GENERATE QR CODE ACITIVITY
             }
 
-            binding.btnTransferFunds.setOnClickListener {
+            btnTransferFunds.setOnClickListener {
                 //BUTTON FOR TRANSFERING FUNDS ACTIVITY
             }
 
