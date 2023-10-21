@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.getUserProfile()
+        viewModel.getUserBalance()
 
         with(binding){
             btnLogOut.setOnClickListener {
@@ -40,7 +41,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             btnAddAmount.setOnClickListener {
-                //BUTTON FOR INTENT TO ADD AMOUNT TO USER ACCOUNT
+                val intent = Intent(this@MainActivity, AddAmountActivity::class.java)
+                startActivity(intent)
             }
 
             btnGenerateQrCode.setOnClickListener {

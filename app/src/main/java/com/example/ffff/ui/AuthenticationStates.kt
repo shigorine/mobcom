@@ -15,4 +15,7 @@ sealed class AuthenticationStates{
     data object LogOut : AuthenticationStates()
     data object UserDeleted : AuthenticationStates()
     data object Error : AuthenticationStates()
+    data object MoneyUpdate : AuthenticationStates()
+    data object MoneyUpdated : AuthenticationStates()
+    data object userMoney : AuthenticationStates()
 }

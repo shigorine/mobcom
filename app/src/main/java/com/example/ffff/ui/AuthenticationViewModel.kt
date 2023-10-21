@@ -20,6 +20,8 @@ class AuthenticationViewModel:ViewModel() {
     private val auth = Firebase.auth
     private val ref = Firebase.database.reference
     private var states = MutableLiveData<AuthenticationStates>()
+    private val userBalance = MutableLiveData<String>()
+
 
     private lateinit var gso: GoogleSignInOptions
 
@@ -153,6 +155,7 @@ class AuthenticationViewModel:ViewModel() {
         }
     }
 
+
     fun createUserRecord (email : String, name : String, money : String) {
         val users = ProfileModel(null,email,name,money)
 
@@ -161,4 +164,24 @@ class AuthenticationViewModel:ViewModel() {
             else states.value = AuthenticationStates.Error
         }
     }
+
+    fun getUserBalance(): LiveData<String> {
+        return userBalance
+    }
+    fun updateUserBalance(newBalance: String) {
+        profileModel.money = newBalance
+    }
+
+    fun saveUserBalanceToDatabase(newBalance: String) {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val currentUserEmail = currentUser.email
+            if (currentUserEmail != null) {
+                val userMoneyRef = ref.child("bankapp/users/$currentUserEmail/money")
+                userMoneyRef.setValue(newBalance)
+            }
+        }
+    }
+
+
 }
