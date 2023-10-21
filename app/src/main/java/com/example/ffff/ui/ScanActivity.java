@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -55,18 +54,20 @@ public class ScanActivity extends AppCompatActivity {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference usersRef = database.getReference("users");
 
-                String senderEmail = "sender@example.com";
+                String senderEmail = scannedEmail;
+
                 usersRef.orderByChild("email").equalTo(senderEmail).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot senderData) {
-                        if (senderData.exists()) {
-                            for (DataSnapshot senderSnapshot : senderData.getChildren()) {
-                                String senderUserId = senderSnapshot.getKey();
-                                int senderBalance = senderSnapshot.child("money").getValue(Integer.class);
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                                String senderUserId = userSnapshot.getKey();
+
+                                int senderBalance = userSnapshot.child("money").getValue(Integer.class);
 
                                 if (senderBalance >= amount) {
                                     senderBalance -= amount;
-                                    senderSnapshot.getRef().child("money").setValue(senderBalance);
+                                    userSnapshot.getRef().child("money").setValue(senderBalance);
 
                                     usersRef.orderByChild("email").equalTo(scannedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -92,8 +93,6 @@ public class ScanActivity extends AppCompatActivity {
                                     showAlertDialog("Error", "Insufficient funds for the transfer");
                                 }
                             }
-                        } else {
-                            showAlertDialog("Error", "Sender not found");
                         }
                     }
 
