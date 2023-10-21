@@ -3,15 +3,7 @@ package com.example.ffff.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
 import com.example.ffff.R
 import com.example.ffff.databinding.ActivityMainBinding
 
@@ -39,8 +31,9 @@ class MainActivity : AppCompatActivity() {
                 viewModel.logOut()
             }
 
-            btnAddAmount.setOnClickListener {
-
+            btnAddAmount.setOnClickListener (){
+                val intent = Intent(this@MainActivity,AddAmountActivity::class.java)
+                startActivity(intent)
             }
 
             btnGenerateQrCode.setOnClickListener {

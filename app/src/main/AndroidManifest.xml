@@ -46,6 +46,12 @@
             android:name=".ui.GenerateQRCodeActivity"
             android:exported="true">
         </activity>
+
+        <activity
+            android:name=".ui.AddAmountActivity"
+            android:exported="true">
+        </activity>
+
         <activity android:name=".ui.CaptureAct"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
