@@ -31,10 +31,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.logOut()
             }
 
-            btnAddAmount.setOnClickListener (){
-                val intent = Intent(this@MainActivity,AddAmountActivity::class.java)
-                startActivity(intent)
-            }
+
 
             btnGenerateQrCode.setOnClickListener {
                 val intent = Intent(this@MainActivity, GenerateQRCodeActivity::class.java)
