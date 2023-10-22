@@ -44,4 +44,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="qr_code_image">yes</string>
+    <string name="default_web_client_id" translatable="false">1087573213214-42r9o0s3ma7oo2t6heoekp877rrf65n2.apps.googleusercontent.com</string>
 </resources>

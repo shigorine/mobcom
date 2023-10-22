@@ -11,11 +11,18 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.ffff.R
 import com.example.ffff.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -39,6 +46,12 @@ class LoginActivity : AppCompatActivity() {
 
         createRequest()
 
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail().build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this,gso)
+
         with(binding) {
             btnSignin.setOnClickListener {
                 viewModel.signIn(
@@ -50,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
             btnGoogle.setOnClickListener {
                 mGoogleSignInClient.signOut()
                 val signInIntent = mGoogleSignInClient.signInIntent
+
                 startActivityForResult(signInIntent, 2)
             }
 
@@ -131,6 +145,43 @@ class LoginActivity : AppCompatActivity() {
 
         return SpannableString(fullText).apply {
             setSpan(clickableSpan, startIndex, startIndex + linkText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+
+    private fun signInGoogle(){
+        val signInIntent = mGoogleSignInClient.signInIntent
+        launcher.launch(signInIntent)
+    }
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        result -> 
+                if(result.resultCode == Activity.RESULT_OK){
+                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    handleResults(task)
+                }
+    }
+
+    private fun handleResults(task: Task<GoogleSignInAccount>) {
+        if(task.isSuccessful){
+            val account: GoogleSignInAccount? = task.result
+                if(account != null){
+                    updateUi(account)
+                }
+        }else{
+            Toast.makeText(this,task.exception.toString(),Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateUi(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        auth.signInWithCredential(credential).addOnCompleteListener {
+            if(it.isSuccessful){
+                val intent : Intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("email", account.email)
+                startActivity(intent)
+            }else{
+                Toast.makeText(this,it.exception.toString(),Toast.LENGTH_SHORT).show()
+
+            }
         }
     }
 
