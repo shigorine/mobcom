@@ -3,9 +3,12 @@ package com.example.ffff.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.ffff.R
 import com.example.ffff.databinding.ActivityMainBinding
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,19 +37,42 @@ class MainActivity : AppCompatActivity() {
 
 
             btnGenerateQrCode.setOnClickListener {
-                val intent = Intent(this@MainActivity, GenerateQRCodeActivity::class.java)
+                val intent = Intent(this@MainActivity, GenerateQrCodeKotlinActivity::class.java)
                 startActivity(intent)
             }
 
             btnTransferFunds.setOnClickListener {
-                val intent = Intent(this@MainActivity, ScanActivity::class.java)
-                startActivity(intent)
+//                val intent = Intent(this@MainActivity, ScanActivity::class.java)
+//                startActivity(intent)
+
+                barcodeLauncher.launch(ScanOptions())
             }
 
         }
 
 
      }
+
+    // Register the launcher and result handler
+    private val barcodeLauncher = registerForActivityResult<ScanOptions, ScanIntentResult>(
+        ScanContract()
+    ) { result: ScanIntentResult ->
+        if (result.contents == null) {
+            Toast.makeText(this@MainActivity, "Cancelled", Toast.LENGTH_LONG).show()
+        } else {
+            val intent = Intent(this@MainActivity, PaymentActivity::class.java)
+            intent.putExtra("uid",result.contents)
+            startActivity(intent)
+
+            Toast.makeText(
+                this@MainActivity,
+                "Scanned: " + result.contents,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+
 
     private fun handleState(state : AuthenticationStates) {
         when(state) {

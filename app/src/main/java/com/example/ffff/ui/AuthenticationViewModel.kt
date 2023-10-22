@@ -1,5 +1,6 @@
 package com.example.ffff.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -183,6 +184,41 @@ class AuthenticationViewModel:ViewModel() {
             }
         }
     }
+
+    fun getUserUid(): String?{
+        return auth.currentUser?.uid
+    }
+
+    fun getUserMoney(uid: String?, callback: (Double) -> Unit){
+        ref.child("bankapp/users/$uid/money").get().addOnSuccessListener { dataSnapshot->
+           val money = dataSnapshot.value as String
+            Log.d("test123", money)
+            if (money != null){
+                callback(money.toDouble())
+            }else{
+                callback(0.0)
+            }
+
+
+        }
+
+    }
+
+    fun paymentSenderToReceiver(uid: String?, payment:Double){
+        getUserMoney(auth.currentUser?.uid) { money ->
+            val newAmount = money - payment
+            Log.d("test123", money.toString())
+            ref.child("bankapp/users/${auth.currentUser?.uid}/money").setValue(newAmount.toString())
+        }
+        getUserMoney(uid){money ->
+            val newAmount = money + payment
+
+            ref.child("bankapp/users/$uid/money").setValue(newAmount.toString())
+
+        }
+    }
+
+
 
 
 }
